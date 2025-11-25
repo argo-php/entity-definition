@@ -1,0 +1,50 @@
+{
+    "name": "argo-php/entity-definition",
+    "description": "Make definition of classes and methods",
+    "type": "package",
+    "authors": [
+        {
+            "name": "Babushkin Pavel",
+            "email": "idarksoft@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "8.3.*|8.4.*|8.5.*",
+        "jetbrains/phpstorm-attributes": "^1.0",
+        "psr/container": "^1.0|^2.0",
+        "argo-php/docblock-parser": "^1.0",
+        "argo-php/types": "^1.0"
+    },
+    "require-dev": {
+        "illuminate/support": "^10.0|^11.0",
+        "laravel/pint": "^1.25",
+        "mockery/mockery": "^1.6",
+        "phpunit/phpunit": "^11.0",
+        "roave/security-advisories": "dev-latest",
+        "vimeo/psalm": "^6.13"
+    },
+    "autoload": {
+        "psr-4": {
+            "Argo\\EntityDefinition\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ArgoTest\\EntityDefinition\\": "tests/"
+        }
+    },
+    "extra": {
+        "hyperf": {
+            "config": "Argo\\EntityDefinition\\ConfigProvider"
+        },
+        "laravel": {
+            "providers": [
+                "Argo\\EntityDefinition\\ServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "pint": "vendor/bin/pint",
+        "psalm": "vendor/bin/psalm --output-format=phpstorm --no-cache"
+    }
+}
