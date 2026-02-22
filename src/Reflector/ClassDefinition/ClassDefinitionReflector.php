@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Argo\EntityDefinition\Reflector\ClassDefinition;
 
-use JetBrains\PhpStorm\Deprecated;
 use Argo\DocBlockParser\PhpDoc;
 use Argo\DocBlockParser\PhpDocFactory;
 use Argo\DocBlockParser\Tags\DeprecatedTag;
@@ -76,7 +75,12 @@ readonly class ClassDefinitionReflector implements ClassDefinitionReflectorInter
         if ($reflection->isReadOnly()) {
             $modifiers |= ClassFlag::IS_READONLY;
         }
-        if ($attributes->hasByType(Deprecated::class) || $docBlock?->hasTagsByType(DeprecatedTag::class)) {
+        /** @psalm-suppress ArgumentTypeCoercion,UndefinedClass */
+        if (
+            $attributes->hasByType('\JetBrains\PhpStorm\Deprecated')
+            || $attributes->hasByType('\Deprecated')
+            || $docBlock?->hasTagsByType(DeprecatedTag::class)
+        ) {
             $modifiers |= ClassFlag::IS_DEPRECATED;
         }
 

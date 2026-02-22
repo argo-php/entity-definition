@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Argo\EntityDefinition\Reflector\MethodDefinition;
 
-use JetBrains\PhpStorm\Deprecated;
 use Argo\DocBlockParser\PhpDoc;
 use Argo\DocBlockParser\PhpDocFactory;
 use Argo\DocBlockParser\Tags\DeprecatedTag;
@@ -155,7 +154,12 @@ readonly class MethodDefinitionReflector implements MethodDefinitionReflectorInt
         if ($reflection->isDestructor()) {
             $modifiers |= MethodFlag::IS_DESTRUCTOR;
         }
-        if ($attributes->hasByType(Deprecated::class) || $docBlock?->hasTagsByType(DeprecatedTag::class)) {
+        /** @psalm-suppress ArgumentTypeCoercion,UndefinedClass */
+        if (
+            $attributes->hasByType('\JetBrains\PhpStorm\Deprecated')
+            || $attributes->hasByType('\Deprecated')
+            || $docBlock?->hasTagsByType(DeprecatedTag::class)
+        ) {
             $modifiers |= MethodFlag::IS_DEPRECATED;
         }
 

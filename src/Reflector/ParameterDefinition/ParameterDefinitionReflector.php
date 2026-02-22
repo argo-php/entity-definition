@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Argo\EntityDefinition\Reflector\ParameterDefinition;
 
-use JetBrains\PhpStorm\Deprecated;
 use Argo\DocBlockParser\Tags\ParamTag;
 use Argo\EntityDefinition\Collection\AttributeCollection;
 use Argo\EntityDefinition\Definition\Flag\ParameterFlag;
@@ -55,7 +54,11 @@ readonly class ParameterDefinitionReflector implements ParameterDefinitionReflec
         if ($reflection->isPromoted()) {
             $modifiers |= ParameterFlag::IS_PROMOTED;
         }
-        if ($attributes->hasByType(Deprecated::class)) {
+        /** @psalm-suppress ArgumentTypeCoercion,UndefinedClass */
+        if (
+            $attributes->hasByType('\JetBrains\PhpStorm\Deprecated')
+            || $attributes->hasByType('\Deprecated')
+        ) {
             $modifiers |= ParameterFlag::IS_DEPRECATED;
         }
 

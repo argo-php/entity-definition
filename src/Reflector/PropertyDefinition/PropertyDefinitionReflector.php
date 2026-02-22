@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Argo\EntityDefinition\Reflector\PropertyDefinition;
 
-use JetBrains\PhpStorm\Deprecated;
 use Argo\DocBlockParser\PhpDoc;
 use Argo\DocBlockParser\PhpDocFactory;
 use Argo\DocBlockParser\Tags\DeprecatedTag;
@@ -140,7 +139,12 @@ readonly class PropertyDefinitionReflector implements PropertyDefinitionReflecto
         if ($reflection->isReadOnly()) {
             $modifiers |= PropertyFlag::IS_READONLY;
         }
-        if ($attributes->hasByType(Deprecated::class) || $hasDeprecatedTag) {
+        /** @psalm-suppress ArgumentTypeCoercion,UndefinedClass */
+        if (
+            $hasDeprecatedTag
+            || $attributes->hasByType('\JetBrains\PhpStorm\Deprecated')
+            || $attributes->hasByType('\Deprecated')
+        ) {
             $modifiers |= PropertyFlag::IS_DEPRECATED;
         }
 
