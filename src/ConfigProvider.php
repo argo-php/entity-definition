@@ -6,6 +6,8 @@ namespace Argo\EntityDefinition;
 
 use Argo\EntityDefinition\Reflector\ClassDefinition\ClassDefinitionReflectorFactory;
 use Argo\EntityDefinition\Reflector\ClassDefinition\ClassDefinitionReflectorInterface;
+use Argo\EntityDefinition\Reflector\FunctionDefinition\FunctionDefinitionReflectorFactory;
+use Argo\EntityDefinition\Reflector\FunctionDefinition\FunctionDefinitionReflectorInterface;
 use Argo\EntityDefinition\Reflector\MethodDefinition\MethodDefinitionReflectorFactory;
 use Argo\EntityDefinition\Reflector\MethodDefinition\MethodDefinitionReflectorInterface;
 use Argo\EntityDefinition\Reflector\ParameterDefinition\ParameterDefinitionReflectorFactory;
@@ -30,6 +32,7 @@ class ConfigProvider
                 MethodDefinitionReflectorInterface::class => MethodDefinitionReflectorFactory::class,
                 PropertyDefinitionReflectorInterface::class => PropertyDefinitionReflectorFactory::class,
                 ParameterDefinitionReflectorInterface::class => ParameterDefinitionReflectorFactory::class,
+                FunctionDefinitionReflectorInterface::class => FunctionDefinitionReflectorFactory::class,
                 TypeReflectorInterface::class => TypeReflector::class,
                 VariableTypeReflectorInterface::class => VariableTypeReflector::class,
             ],
