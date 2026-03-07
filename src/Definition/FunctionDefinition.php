@@ -35,4 +35,9 @@ readonly class FunctionDefinition
     {
         return ($this->modifiers & MethodFlag::IS_STATIC) !== 0;
     }
+
+    public function isDeprecated(): bool
+    {
+        return ($this->modifiers & MethodFlag::IS_DEPRECATED) !== 0;
+    }
 }
