@@ -12,7 +12,7 @@ use Argo\DocBlockParser\Tags\VarTag;
 use Argo\EntityDefinition\Collection\AttributeCollection;
 use Argo\EntityDefinition\Definition\Flag\PropertyFlag;
 use Argo\EntityDefinition\Definition\PropertyDefinition;
-use Argo\EntityDefinition\Reflector\Support\AttributesTrait;
+use Argo\EntityDefinition\Reflector\Support\AttributesReflector;
 use Argo\EntityDefinition\TypeReflector\TypeReflectorInterface;
 
 /**
@@ -20,11 +20,10 @@ use Argo\EntityDefinition\TypeReflector\TypeReflectorInterface;
  */
 readonly class PropertyDefinitionReflector implements PropertyDefinitionReflectorInterface
 {
-    use AttributesTrait;
-
     public function __construct(
         private PhpDocFactory $phpDocFactory,
         private TypeReflectorInterface $typeReflector,
+        private AttributesReflector $attributesReflector,
     ) {}
 
     /**
@@ -69,7 +68,7 @@ readonly class PropertyDefinitionReflector implements PropertyDefinitionReflecto
         }
 
         $propertyType = $this->typeReflector->getType($reflectionProperty->getType(), $propertyDocBlockTag?->type);
-        $attributes = $this->getAttributes($reflectionProperty);
+        $attributes = $this->attributesReflector->getAttributes($reflectionProperty);
 
         return new PropertyDefinition(
             type: $propertyType,

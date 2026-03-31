@@ -16,7 +16,7 @@ use Argo\EntityDefinition\Definition\Collection\ProxyPropertyDefinitionCollectio
 use Argo\EntityDefinition\Definition\Flag\ClassFlag;
 use Argo\EntityDefinition\Reflector\MethodDefinition\MethodDefinitionReflectorInterface;
 use Argo\EntityDefinition\Reflector\PropertyDefinition\PropertyDefinitionReflectorInterface;
-use Argo\EntityDefinition\Reflector\Support\AttributesTrait;
+use Argo\EntityDefinition\Reflector\Support\AttributesReflector;
 use Argo\EntityDefinition\Reflector\Support\TemplatesTrait;
 
 /**
@@ -24,18 +24,18 @@ use Argo\EntityDefinition\Reflector\Support\TemplatesTrait;
  */
 readonly class ClassDefinitionReflector implements ClassDefinitionReflectorInterface
 {
-    use AttributesTrait;
     use TemplatesTrait;
 
     public function __construct(
         private PhpDocFactory $phpDocFactory,
         private MethodDefinitionReflectorInterface $methodReflector,
         private PropertyDefinitionReflectorInterface $propertyReflector,
+        private AttributesReflector $attributesReflector,
     ) {}
 
     public function getClassDefinition(\ReflectionClass $reflectionClass): ClassDefinition
     {
-        $attributes = $this->getAttributes($reflectionClass);
+        $attributes = $this->attributesReflector->getAttributes($reflectionClass);
         $docBlockClass = $this->phpDocFactory->getPhpDocFromReflector($reflectionClass);
 
         return new ClassDefinition(

@@ -17,7 +17,7 @@ use Argo\EntityDefinition\Definition\Flag\MethodFlag;
 use Argo\EntityDefinition\Definition\FunctionDefinition;
 use Argo\EntityDefinition\Definition\ValueDefinition;
 use Argo\EntityDefinition\Reflector\ParameterDefinition\ParameterDefinitionReflectorInterface;
-use Argo\EntityDefinition\Reflector\Support\AttributesTrait;
+use Argo\EntityDefinition\Reflector\Support\AttributesReflector;
 use Argo\EntityDefinition\Reflector\Support\TemplatesTrait;
 use Argo\EntityDefinition\TypeReflector\TypeReflectorInterface;
 use Argo\Types\TypeInterface;
@@ -27,19 +27,19 @@ use Argo\Types\TypeInterface;
  */
 readonly class FunctionDefinitionReflector implements FunctionDefinitionReflectorInterface
 {
-    use AttributesTrait;
     use TemplatesTrait;
 
     public function __construct(
         private PhpDocFactory $phpDocFactory,
         private TypeReflectorInterface $typeReflector,
         private ParameterDefinitionReflectorInterface $parameterReflector,
+        private AttributesReflector $attributesReflector,
     ) {}
 
     public function getFunctionDefinition(\ReflectionFunction $reflectionFunction): FunctionDefinition
     {
         $docBlock = $this->phpDocFactory->getPhpDocFromReflector($reflectionFunction);
-        $attributes = $this->getAttributes($reflectionFunction);
+        $attributes = $this->attributesReflector->getAttributes($reflectionFunction);
 
         return new FunctionDefinition(
             name: $reflectionFunction->getName(),

@@ -8,7 +8,7 @@ use Argo\DocBlockParser\Tags\ParamTag;
 use Argo\EntityDefinition\Collection\AttributeCollection;
 use Argo\EntityDefinition\Definition\Flag\ParameterFlag;
 use Argo\EntityDefinition\Definition\ParameterDefinition;
-use Argo\EntityDefinition\Reflector\Support\AttributesTrait;
+use Argo\EntityDefinition\Reflector\Support\AttributesReflector;
 use Argo\EntityDefinition\TypeReflector\TypeReflectorInterface;
 
 /**
@@ -16,17 +16,16 @@ use Argo\EntityDefinition\TypeReflector\TypeReflectorInterface;
  */
 readonly class ParameterDefinitionReflector implements ParameterDefinitionReflectorInterface
 {
-    use AttributesTrait;
-
     public function __construct(
         private TypeReflectorInterface $typeReflector,
+        private AttributesReflector $attributesReflector,
     ) {}
 
     public function getParameterDefinition(
         \ReflectionParameter $reflectionParameter,
         ?ParamTag $docBlockParam = null,
     ): ParameterDefinition {
-        $attributes = $this->getAttributes($reflectionParameter);
+        $attributes = $this->attributesReflector->getAttributes($reflectionParameter);
 
         return new ParameterDefinition(
             type: $this->typeReflector->getType($reflectionParameter->getType(), $docBlockParam?->type),
